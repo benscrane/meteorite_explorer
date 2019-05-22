@@ -38,9 +38,12 @@ export default {
   padding: 0.4em;
   border: none;
 }
+input {
+  background-color: #f2f3f4;
+}
 button {
   text-transform: uppercase;
   background-color: #122c34;
-  color: white;
+  color: #f2f3f4;
 }
 </style>

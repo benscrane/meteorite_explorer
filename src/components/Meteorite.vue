@@ -41,5 +41,6 @@ td {
   padding: 0.5em;
   font-size: 1.2em;
   border-bottom: thin solid grey;
+  background-color: #f2f3f4;
 }
 </style>
