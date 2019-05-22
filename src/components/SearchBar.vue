@@ -35,8 +35,12 @@ export default {
 <style scoped>
 * {
   font-size: 1.1em;
+  padding: 0.4em;
+  border: none;
 }
 button {
   text-transform: uppercase;
+  background-color: #122c34;
+  color: white;
 }
 </style>

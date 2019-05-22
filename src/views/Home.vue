@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h2>Meteorite Explorer</h2>
+    <h2 id="header">Meteorite Explorer</h2>
     <SearchBar @search="findMeteorites" />
     <Loader v-show="loading" />
     <SearchResults v-show="!loading" :meteoriteData="meteoriteData" />
@@ -49,3 +49,13 @@ export default {
   }
 };
 </script>
+
+<style scoped>
+#header {
+  background-color: #122c34;
+  color: white;
+  padding: 0.5em 0;
+  margin-top: 0;
+  margin-bottom: 0.75em;
+}
+</style>

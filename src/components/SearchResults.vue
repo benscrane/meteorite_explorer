@@ -17,6 +17,11 @@
         :key="meteorite.id"
         :meteorite="meteorite"
       />
+      <tr v-if="meteoriteData.length == 0">
+        <td colspan="9">
+          No matching meteorite results
+        </td>
+      </tr>
     </table>
   </div>
 </template>
@@ -53,11 +58,15 @@ export default {
   width: 100%;
 }
 #header {
-  background-color: lightblue;
+  background-color: #fdca40;
   border: none;
 }
-#header th {
-  padding: 0.5em;
+th,
+td {
+  padding: 0.6em;
   font-size: 1.2em;
+}
+td {
+  text-align: center;
 }
 </style>
