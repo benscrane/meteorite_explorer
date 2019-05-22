@@ -29,7 +29,6 @@ export default {
   },
   methods: {
     async findMeteorites(e) {
-      console.log(e);
       // load data and populate meteorite data array;
       if (e !== this.lastSearch) {
         this.loading = true;
