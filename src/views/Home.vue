@@ -2,25 +2,29 @@
   <div>
     <h2>Meteorite Explorer</h2>
     <SearchBar @search="findMeteorites" />
-    <SearchResults :meteoriteData="meteoriteData" />
+    <Loader v-show="loading" />
+    <SearchResults v-show="!loading" :meteoriteData="meteoriteData" />
   </div>
 </template>
 
 <script>
 import axios from "axios";
 import SearchBar from "@/components/SearchBar.vue";
+import Loader from "@/components/Loader.vue";
 import SearchResults from "@/components/SearchResults.vue";
 
 export default {
   name: "Home",
   components: {
     SearchBar,
-    SearchResults
+    SearchResults,
+    Loader
   },
   data() {
     return {
       meteoriteData: [],
-      lastSearch: undefined
+      lastSearch: undefined,
+      loading: true
     };
   },
   methods: {
@@ -28,6 +32,7 @@ export default {
       console.log(e);
       // load data and populate meteorite data array;
       if (e !== this.lastSearch) {
+        this.loading = true;
         this.lastSearch = e;
         let url = "https://data.nasa.gov/resource/gh4g-9sfh.json";
         if (e !== "") {
@@ -35,6 +40,7 @@ export default {
         }
         let res = await axios.get(url);
         this.meteoriteData = res.data;
+        this.loading = false;
       }
     }
   },
