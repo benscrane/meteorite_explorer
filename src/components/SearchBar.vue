@@ -26,7 +26,7 @@ export default {
   },
   methods: {
     findMeteorites() {
-      alert(this.searchText);
+      this.$emit("search", this.searchText);
     }
   }
 };
