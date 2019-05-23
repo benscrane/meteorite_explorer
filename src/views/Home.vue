@@ -1,7 +1,7 @@
 <template>
   <div>
     <h2 id="header">Meteorite Explorer</h2>
-    <SearchBar @search="findMeteorites" />
+    <SearchBar @search="findMeteorites" :previousSearches="previousSearches" />
     <Loader v-show="loading" />
     <SearchResults v-show="!loading" :meteoriteData="meteoriteData" />
   </div>
@@ -24,7 +24,8 @@ export default {
     return {
       meteoriteData: [],
       lastSearch: undefined,
-      loading: true
+      loading: true,
+      previousSearches: []
     };
   },
   methods: {
@@ -33,13 +34,29 @@ export default {
       if (e !== this.lastSearch) {
         this.loading = true;
         this.lastSearch = e;
+        this.updateSearchHistory(e);
         let url = "https://data.nasa.gov/resource/gh4g-9sfh.json";
         if (e !== "") {
-          url += `?$where=name like '%25${e}%25'`;
+          url += `?$where=UPPER(name) like '%25${e.toUpperCase()}%25'`;
         }
         let res = await axios.get(url);
         this.meteoriteData = res.data;
         this.loading = false;
+      }
+    },
+    updateSearchHistory(searchTerm) {
+      if (searchTerm !== "") {
+        if (this.previousSearches.includes(searchTerm)) {
+          // remove previous search term
+          this.previousSearches.splice(
+            this.previousSearches.indexOf(searchTerm),
+            1
+          );
+        }
+        this.previousSearches.unshift(searchTerm);
+      }
+      if (this.previousSearches.length > 10) {
+        this.previousSearches.pop();
       }
     }
   },

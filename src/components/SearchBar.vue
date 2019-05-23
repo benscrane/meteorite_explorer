@@ -3,9 +3,17 @@
     <form v-on:submit.prevent="findMeteorites">
       <input
         v-model="searchText"
-        type="text"
+        type="search"
+        list="searchHistory"
         placeholder="Enter search terms"
       />
+      <datalist id="searchHistory">
+        <option
+          v-for="(search, i) in previousSearches"
+          :key="i"
+          :value="search"
+        />
+      </datalist>
       <button>Search</button>
     </form>
   </div>
