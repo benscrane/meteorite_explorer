@@ -51,7 +51,6 @@ export default {
             url: url,
             timeout: 10000
           });
-          console.log(res);
         } catch (error) {
           res = error.response;
         }
