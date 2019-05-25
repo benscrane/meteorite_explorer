@@ -37,7 +37,7 @@ export default {
     async findMeteorites(e) {
       // load data and populate meteorite data array;
       if (e !== this.lastSearch) {
-        let res;
+        let res = {};
         this.loading = true;
         this.lastSearch = e;
         this.updateSearchHistory(e);
@@ -46,15 +46,21 @@ export default {
           url += `?$where=UPPER(name) like '%25${e.toUpperCase()}%25'`;
         }
         try {
-          res = await axios.get(url);
+          res = await axios({
+            method: "get",
+            url: url,
+            timeout: 10000
+          });
+          console.log(res);
         } catch (error) {
           res = error.response;
         }
-        if (res.status == 200 || res.status == 202) {
+        if (!res) {
+          this.error = true;
+        } else if (res.status == 200 || res.status == 202) {
           this.meteoriteData = res.data;
           this.error = false;
         } else {
-          console.log(res);
           this.error = true;
         }
         this.loading = false;

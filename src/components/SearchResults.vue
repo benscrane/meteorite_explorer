@@ -17,7 +17,7 @@
         :key="meteorite.id"
         :meteorite="meteorite"
       />
-      <tr v-if="meteoriteData.length == 0">
+      <tr v-if="meteoriteData.length == 0 && !error">
         <td colspan="9">
           No matching meteorite results
         </td>
