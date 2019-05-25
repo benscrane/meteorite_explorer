@@ -13,13 +13,18 @@
         <th width="10%">Longitude</th>
       </tr>
       <Meteorite
-        v-for="meteorite in meteoriteData"
+        v-for="meteorite in meteoriteList"
         :key="meteorite.id"
         :meteorite="meteorite"
       />
       <tr v-if="meteoriteData.length == 0">
         <td colspan="9">
           No matching meteorite results
+        </td>
+      </tr>
+      <tr v-if="error">
+        <td colspan="9">
+          Something went wrong, try again in a few seconds
         </td>
       </tr>
     </table>
@@ -38,6 +43,19 @@ export default {
     meteoriteData: {
       type: Array,
       default: () => []
+    },
+    error: {
+      type: Boolean,
+      default: false
+    }
+  },
+  computed: {
+    meteoriteList() {
+      if (!this.error) {
+        return this.meteoriteData;
+      } else {
+        return [];
+      }
     }
   }
 };

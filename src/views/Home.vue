@@ -3,7 +3,11 @@
     <h2 id="header">Meteorite Explorer</h2>
     <SearchBar @search="findMeteorites" :previousSearches="previousSearches" />
     <Loader v-show="loading" />
-    <SearchResults v-show="!loading" :meteoriteData="meteoriteData" />
+    <SearchResults
+      v-show="!loading"
+      :meteoriteData="meteoriteData"
+      :error="error"
+    />
   </div>
 </template>
 
@@ -25,13 +29,15 @@ export default {
       meteoriteData: [],
       lastSearch: undefined,
       loading: true,
-      previousSearches: []
+      previousSearches: [],
+      error: false
     };
   },
   methods: {
     async findMeteorites(e) {
       // load data and populate meteorite data array;
       if (e !== this.lastSearch) {
+        let res;
         this.loading = true;
         this.lastSearch = e;
         this.updateSearchHistory(e);
@@ -39,8 +45,18 @@ export default {
         if (e !== "") {
           url += `?$where=UPPER(name) like '%25${e.toUpperCase()}%25'`;
         }
-        let res = await axios.get(url);
-        this.meteoriteData = res.data;
+        try {
+          res = await axios.get(url);
+        } catch (error) {
+          res = error.response;
+        }
+        if (res.status == 200 || res.status == 202) {
+          this.meteoriteData = res.data;
+          this.error = false;
+        } else {
+          console.log(res);
+          this.error = true;
+        }
         this.loading = false;
       }
     },
